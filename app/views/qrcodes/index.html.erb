@@ -1,0 +1,67 @@
+<%= stylesheet_link_tag "qrcode.css" %>
+
+<h3>QR Tracker</h3>
+<div class="subhead">
+Click the "Generate QR" icon to view a QR code.
+</div>
+<div id="mainframe">
+<table>
+  <tr>
+    <th>Title</th>
+    <th>URL</th>
+    <th>Generate QR</th>
+    <th>Tools</th>
+  </tr>
+
+  <script type="text/javascript"><!--
+  function ReplaceContentInContainer(id, content, url) {
+      var container = document.getElementById(id);
+      container.innerHTML = content;
+      qrurl.innerHTML = url;
+      instructions.style.visibility = "visible";
+      bubble.style.visibility = "visible";
+      hideme.style.visibility = "visible";
+  }
+  //--></script>
+
+  <% @qrcodes.each do |qrcode| %>
+      <tr class="<%= cycle('rowA', 'rowB') %>">
+
+        <td><%= qrcode.title %></td>
+        <td><a href="<%= qrcode.url %>" target="_blank"><%= qrcode.url %></a></td>
+        <td align="center"><a href="javascript:ReplaceContentInContainer('qrdiv',
+    '<b><%= qrcode.title %></b></br><img src=http://chart.apis.google.com/chart?cht=qr&chl=<%= qrcode.url %>&chs=200x200 />',
+    '<%= qrcode.url %>')"><img src="/assets/generate.png" width="20" height="20"></a></td>
+        <td align="center">
+          <%= link_to image_tag("edit.png", :border=>0, :size=>"20x20"), :action => 'edit', :id => qrcode %>
+          <%= link_to image_tag("minus white.png", :size=>"20x20"), qrcode, :confirm => 'Are you sure?', :method => :delete %>
+        </td>
+  <% end %>
+  <tr>
+    <td><%= link_to(image_tag("plus.png", :size=>"20x20", :alt => "Create a new QR Code"), new_qrcode_path) %>
+    </td>
+  </tr>
+</table>
+
+</br>
+<div id="hideme" class="rounded">
+  <div id="bubble" class="chat-bubble">
+        <b>To download:</b></br>
+        Right click the image.</br>
+        Click 'Save Image As'.</br>
+        Choose an appropriate location to save.
+        <div class="chat-bubble-arrow-border"></div>
+        <div class="chat-bubble-arrow"></div>
+    </div>
+    <div id="qrdiv"></div>
+
+    <div id="qrurl"></div>
+
+    <div id="instructions" class="rounded2">
+    Scan the above code with a QR reader.
+    </div>
+
+</div>
+
+
+    </div>

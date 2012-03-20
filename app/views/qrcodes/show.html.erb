@@ -1,0 +1,15 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <b>Title:</b>
+  <%= @qrcode.title %>
+</p>
+
+<p>
+  <b>Url:</b>
+  <%= @qrcode.url %>
+</p>
+
+
+<%= link_to 'Edit', edit_qrcode_path(@qrcode) %> |
+<%= link_to 'Back', qrcodes_path %>
