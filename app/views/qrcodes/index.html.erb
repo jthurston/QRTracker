@@ -1,17 +1,13 @@
-<%= stylesheet_link_tag "qrcode.css" %>
+<script type="text/javascript">
+    $(document).ready( function () {
+        $('#table_id').DataTable();
+    } );
+</script>
+<!-- DataTables CSS -->
+<link rel="stylesheet" type="text/css" href="//cdn.datatables.net/1.10.2/css/jquery.dataTables.css">
 
-<h3>QR Tracker</h3>
-<div class="subhead">
-Click the "Generate QR" icon to view a QR code.
-</div>
-<div id="mainframe">
-<table>
-  <tr>
-    <th>Title</th>
-    <th>URL</th>
-    <th>Generate QR</th>
-    <th>Tools</th>
-  </tr>
+<!-- DataTables -->
+<script type="text/javascript" charset="utf8" src="//cdn.datatables.net/1.10.2/js/jquery.dataTables.js"></script>
 
   <script type="text/javascript"><!--
   function ReplaceContentInContainer(id, content, url) {
@@ -24,28 +20,38 @@ Click the "Generate QR" icon to view a QR code.
   }
   //--></script>
 
-  <% @qrcodes.each do |qrcode| %>
-      <tr class="<%= cycle('rowA', 'rowB') %>">
+<table id="table_id" class="display">
+    <thead>
+        <tr>
+            <th>Description</th>
+            <th>URL</th>
+            <th>Actions</th>
+        </tr>
+    </thead>
+    <tbody>
+    <% @qrcodes.each do |qrcode| %>
+        <tr>
+          <td><%= qrcode.title %></td>
+          <td><a href="<%= qrcode.url %>" target="_blank"><%= qrcode.url %></a></td>
+          <td align="center"><a href="javascript:ReplaceContentInContainer('qrdiv',
+      '<b><%= qrcode.title %></b></br><img src=http://chart.apis.google.com/chart?cht=qr&chl=<%= qrcode.url %>&chs=200x200 />',
+      '<%= qrcode.url %>')"><img src="/assets/generate.png" width="20" height="20"></a>
 
-        <td><%= qrcode.title %></td>
-        <td><a href="<%= qrcode.url %>" target="_blank"><%= qrcode.url %></a></td>
-        <td align="center"><a href="javascript:ReplaceContentInContainer('qrdiv',
-    '<b><%= qrcode.title %></b></br><img src=http://chart.apis.google.com/chart?cht=qr&chl=<%= qrcode.url %>&chs=200x200 />',
-    '<%= qrcode.url %>')"><img src="/assets/generate.png" width="20" height="20"></a></td>
-        <td align="center">
-          <%= link_to image_tag("edit.png", :border=>0, :size=>"20x20"), :action => 'edit', :id => qrcode %>
-          <%= link_to image_tag("minus white.png", :size=>"20x20"), qrcode, :confirm => 'Are you sure?', :method => :delete %>
-        </td>
-  <% end %>
-  <tr>
-    <td><%= link_to(image_tag("plus.png", :size=>"20x20", :alt => "Create a new QR Code"), new_qrcode_path) %>
-    </td>
-  </tr>
+            <%= link_to image_tag("edit.png", :border=>0, :size=>"20x20"), :action => 'edit', :id => qrcode %>
+            <%= link_to image_tag("minus white.png", :size=>"20x20"), qrcode, :confirm => 'Are you sure?', :method => :delete %>
+          </td>
+    <% end %>
+    </tbody>
 </table>
 
-</br>
+<div class="btn-group">
+  <%= link_to "New QR Code", new_qrcode_path, :class => "btn btn-primary" %>
+</div>
+
+
 <div id="hideme" class="rounded">
-  <div id="bubble" class="chat-bubble">
+  <div id="bubble" class="chat-bubble" style="visibility: hidden;">
+        <br><br>
         <b>To download:</b></br>
         Right click the image.</br>
         Click 'Save Image As'.</br>
@@ -63,5 +69,19 @@ Click the "Generate QR" icon to view a QR code.
 
 </div>
 
+<a type="button" class="btn" style="width:100%;" href="#test_modal" data-toggle="modal">Add Image</a>
 
-    </div>
+
+<div class="modal fade" id="test_modal">
+  <div class="modal-header">
+    <a class="close" data-dismiss="modal">&times;</a>
+    <h3>Modal Header</h3>
+  </div>
+  <div class="modal-body">
+    <p>Test Modal</p>
+  </div>
+  <div class="modal-footer">
+    <a href="#" class="btn" data-dismiss="modal">Close</a>
+    <a href="#" class="btn btn-primary">Save Changes</a>
+  </div>
+</div>
