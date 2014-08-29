@@ -8,6 +8,9 @@ development:
   database: qrcode
   pool: 5
   timeout: 5000
+  username: rails_app
+  password: password
+  host: localhost
 
 # Warning: The database defined as "test" will be erased and
 # re-generated from your development database when you run "rake".
@@ -17,9 +20,15 @@ test:
   database: qrcode
   pool: 5
   timeout: 5000
+  username: rails_app
+  password: password
+  host: localhost
 
 production:
   adapter: postgresql
   database: qrcode
   pool: 5
   timeout: 5000
+  username: rails_app
+  password: password
+  host: localhost
